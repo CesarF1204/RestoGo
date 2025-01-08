@@ -42,9 +42,66 @@ const createItem = async (req, res) => {
         
         res.status(201).json({ message: 'Item created successfully', item });
     } catch (error) {
-        console.error('Error fetching items:', error);
+        console.error('Error creating item:', error);
         res.status(500).json({ message: 'Server error' });
     }
 }
 
-export { fetchItems, createItem };
+/**
+* DOCU: This function is used for updating the item to the Item DB. <br>
+* This is being called when user want to update an item. <br>
+* Last Updated Date: January 08, 2025 <br>
+* @function
+* @param {object} req - request
+* @param {object} res - response
+* @author Cesar
+*/
+const updateItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, description, image, price, quantity } = req.body;
+        
+        let updated_data = {};
+
+        /* Update fields only if new values are provided */
+        if (name) updated_data.name = name;
+        if (description) updated_data.description = description;
+        if (image) updated_data.image = image;
+        if (price) updated_data.price = price;
+        if (quantity) updated_data.quantity = quantity;
+
+        /* Query to update an item */
+        const item = await Item.findByIdAndUpdate(
+            id,
+            updated_data,
+            { new: true, runValidators: true }
+        );
+        
+        res.status(201).json({ message: 'Item updated successfully', item });
+    } catch (error) {
+        console.error('Error updating item:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+/**
+* DOCU: This function is used for deleting the item to the Item DB. <br>
+* This is being called when user want to delete an item. <br>
+* Last Updated Date: January 08, 2025 <br>
+* @function
+* @param {object} req - request
+* @param {object} res - response
+* @author Cesar
+*/
+const deleteItem = async (req, res) => {
+    try {
+        /* Query to delete the item by ID */
+        await Item.findByIdAndDelete(req.params.id);
+        res.status(200).json({ message: 'Item deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting item:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+export { fetchItems, createItem, updateItem, deleteItem };
