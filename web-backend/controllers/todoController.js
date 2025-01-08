@@ -27,6 +27,32 @@ const fetchItems = async (req, res) => {
 }
 
 /**
+* DOCU: This function is used for fetching details for specific item. <br>
+* This is being called when user want to get the details of an specific item. <br>
+* Last Updated Date: January 09, 2025 <br>
+* @function
+* @param {object} req - request
+* @param {object} res - response
+* @author Cesar
+*/
+const fetchItemById = async (req, res) => {
+    try {
+        /* Fetch the item by ID */
+        const item = await Item.findById(req.params.id);
+
+        /* Check if item is not found */
+        if(!item){
+            return res.status(404).json({ message: 'Item not found' });
+        }
+        
+        res.status(200).json(item);
+    } catch (error) {
+        console.error('Error fetching item:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+/**
 * DOCU: This function is used for creating the item to the Item DB. <br>
 * This is being called when user want to create an item. <br>
 * Last Updated Date: January 08, 2025 <br>
@@ -50,7 +76,7 @@ const createItem = async (req, res) => {
 /**
 * DOCU: This function is used for updating the item to the Item DB. <br>
 * This is being called when user want to update an item. <br>
-* Last Updated Date: January 08, 2025 <br>
+* Last Updated Date: January 09, 2025 <br>
 * @function
 * @param {object} req - request
 * @param {object} res - response
@@ -59,13 +85,14 @@ const createItem = async (req, res) => {
 const updateItem = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, description, image, price, quantity } = req.body;
+        const { name, description, mealCategory, image, price, quantity } = req.body;
         
         let updated_data = {};
 
         /* Update fields only if new values are provided */
         if (name) updated_data.name = name;
         if (description) updated_data.description = description;
+        if (mealCategory) updated_data.mealCategory = mealCategory;
         if (image) updated_data.image = image;
         if (price) updated_data.price = price;
         if (quantity) updated_data.quantity = quantity;
@@ -104,4 +131,4 @@ const deleteItem = async (req, res) => {
     }
 }
 
-export { fetchItems, createItem, updateItem, deleteItem };
+export { fetchItems, fetchItemById, createItem, updateItem, deleteItem };

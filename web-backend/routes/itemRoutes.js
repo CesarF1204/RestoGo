@@ -1,15 +1,19 @@
 import express from 'express';
 import { 
     fetchItems,
+    fetchItemById,
     createItem,
     updateItem,
-    deleteItem
+    deleteItem,
 } from '../controllers/todoController.js';
 
 const router = express.Router();
 
 /* Route for fetching items */
 router.get('/', fetchItems);
+
+/* Route for fetching an specific item */
+router.get('/:id', fetchItemById);
 
 /* Route for creating an item */
 router.post('/', createItem);
