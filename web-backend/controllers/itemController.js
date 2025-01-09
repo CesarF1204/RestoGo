@@ -1,6 +1,6 @@
 import Item from '../models/Item.js';
 import { getUploadedImageUrl, paginationAndLimitation } from '../helpers/globalHelper.js';
-
+import { validationResult } from "express-validator";
 /**
 * DOCU: This function is used for fetching the items from Item DB. <br>
 * This is being called when user want to get the items. <br>
@@ -89,7 +89,7 @@ const fetchItemById = async (req, res) => {
 /**
 * DOCU: This function is used for creating the item to the Item DB. <br>
 * This is being called when user want to create an item. <br>
-* Last Updated Date: January 08, 2025 <br>
+* Last Updated Date: January 10, 2025 <br>
 * @function
 * @param {object} req - request
 * @param {object} res - response
@@ -97,6 +97,12 @@ const fetchItemById = async (req, res) => {
 */
 const createItem = async (req, res) => {
     try {
+        /* Handle validation errors */
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ message: errors.array().map(error => error.msg) });
+        }
+
         /* Query to create an item using the data from the request body */
         const item = await Item.create(req.body);
 
@@ -120,7 +126,7 @@ const createItem = async (req, res) => {
 /**
 * DOCU: This function is used for updating the item to the Item DB. <br>
 * This is being called when user want to update an item. <br>
-* Last Updated Date: January 09, 2025 <br>
+* Last Updated Date: January 10, 2025 <br>
 * @function
 * @param {object} req - request
 * @param {object} res - response
@@ -128,6 +134,12 @@ const createItem = async (req, res) => {
 */
 const updateItem = async (req, res) => {
     try {
+        /* Handle validation errors */
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ message: errors.array().map(error => error.msg) });
+        }
+
         const { id } = req.params;
         const item_to_update = req.body;
 
