@@ -56,6 +56,21 @@ const Home = () => {
         }
     };
 
+    /* Handle closing the modal when Escape key is pressed */
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if(e.key === 'Escape' && showModal){
+                closeModal();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [showModal]);
+
     /* Reset the page to 1 when the limitation changes */
     useEffect(() => {
         setPage(1);

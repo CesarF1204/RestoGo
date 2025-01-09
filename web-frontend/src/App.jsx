@@ -12,6 +12,9 @@ function App() {
         <Route path="/" element={ <Layout> <Home /> </Layout>} />
         <Route path="/create_item" element={ <Layout> <CreateItem /> </Layout>} />
         <Route path="/edit_item/:id" element={ <Layout> <EditItem /> </Layout>} />
+      
+        {/* Fallback to home for undefined routes */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   )
