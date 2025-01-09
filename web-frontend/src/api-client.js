@@ -7,9 +7,17 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 * @function
 * @author Cesar
 */
-const fetchItems = async () => {
+const fetchItems = async ({ page, category, limit, search }) => {
     try{
-        const response = await fetch(`${API_BASE_URL}/api/items`, {
+        /* Params for filtering */
+        const queryParams = new URLSearchParams({
+            page,
+            category,
+            limit,
+            search
+        }).toString();
+
+        const response = await fetch(`${API_BASE_URL}/api/items?${queryParams}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

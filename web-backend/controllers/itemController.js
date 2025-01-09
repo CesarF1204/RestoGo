@@ -1,10 +1,10 @@
 import Item from '../models/Item.js';
-import { getUploadedImageUrl } from '../helpers/globalHelper.js';
+import { getUploadedImageUrl, paginationAndLimitation } from '../helpers/globalHelper.js';
 
 /**
 * DOCU: This function is used for fetching the items from Item DB. <br>
 * This is being called when user want to get the items. <br>
-* Last Updated Date: January 08, 2025 <br>
+* Last Updated Date: January 09, 2025 <br>
 * @function
 * @param {object} req - request
 * @param {object} res - response
@@ -12,15 +12,48 @@ import { getUploadedImageUrl } from '../helpers/globalHelper.js';
 */
 const fetchItems = async (req, res) => {
     try {
-        /* Query to get the items */
-        const items = await Item.find();
+        /* Get needed data from query request */
+        const { page, category, limit, search } = req.query;
+
+        /* Call paginationAndLimitation helper to implement pagination and limitation */
+        const { pageNumber, limitNumber, skip } = paginationAndLimitation({ page, limit });
+
+        /* Initialize an empty filter object */
+        const filter = {};
+
+        /* Check if value for search is provided */
+        if(search){
+            filter.name = { $regex: search, $options: 'i' };
+        }
+
+        /* Check if value for category is provided */
+        if(category){
+            filter.mealCategory = { $regex: category, $options: 'i' };
+        }
+
+        /* This will be pass to the query to handle case sensitive data */
+        const collation = { locale: 'en', strength: 2 };
+
+        /* Query to Item DB implementing pagination with per page limitation and filtering when searching */
+        const items = await Item.find(filter)
+            .collation(collation) /* Use collation to handle case sensitive data */
+            .skip(skip)
+            .limit(limitNumber);
 
         /* Check if items is not found */
         if(!items){
             return res.status(404).json({ message: 'No items found' });
         }
-        
-        res.status(200).json({ items });
+
+        /* Get the total count of documents for pagination */
+        const totalCount = await Item.countDocuments(filter);
+
+        res.status(200).json({
+            items,
+            totalCount,
+            totalPages: Math.ceil(totalCount / limitNumber),
+            currentPage: pageNumber,
+        });
     } catch (error) {
         console.error('Error fetching items:', error);
         res.status(500).json({ message: 'Server error' });
@@ -71,7 +104,7 @@ const createItem = async (req, res) => {
         if(req.file){
             /* Call getUploadedImageUrl helper to get the image url uploaded */
             const image_url = await getUploadedImageUrl(req.file);
-            /* Assign and save to seminar the uploaded image URL to the speaker's image field */
+           /* Set and assign image_url to item.image */
             item.image = image_url;
             /* Save the updated item to the DB */
             await item.save();
@@ -102,7 +135,7 @@ const updateItem = async (req, res) => {
         if(req.file){
             /* Call getUploadedImageUrl helper to get the image url uploaded */
             const image_url = await getUploadedImageUrl(req.file);
-            /* Assign and save to seminar the uploaded image URL to the speaker's image field */
+            /* Set and assign image_url to item_to_update.image */
             item_to_update.image = image_url;
         }
 
