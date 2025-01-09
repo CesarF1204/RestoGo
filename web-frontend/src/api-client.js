@@ -100,10 +100,7 @@ const updateItem = async (id, form_data) => {
     try{
         const response = await fetch(`${API_BASE_URL}/api/items/${id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(form_data),
+            body: form_data,
         });
 
         const data = await response.json();

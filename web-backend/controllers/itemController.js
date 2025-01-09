@@ -96,22 +96,20 @@ const createItem = async (req, res) => {
 const updateItem = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, description, mealCategory, image, price, quantity } = req.body;
-        
-        let updated_data = {};
+        const item_to_update = req.body;
 
-        /* Update fields only if new values are provided */
-        if (name) updated_data.name = name;
-        if (description) updated_data.description = description;
-        if (mealCategory) updated_data.mealCategory = mealCategory;
-        if (image) updated_data.image = image;
-        if (price) updated_data.price = price;
-        if (quantity) updated_data.quantity = quantity;
+        /* Check if there is an uploaded image file */
+        if(req.file){
+            /* Call getUploadedImageUrl helper to get the image url uploaded */
+            const image_url = await getUploadedImageUrl(req.file);
+            /* Assign and save to seminar the uploaded image URL to the speaker's image field */
+            item_to_update.image = image_url;
+        }
 
         /* Query to update an item */
         const item = await Item.findByIdAndUpdate(
             id,
-            updated_data,
+            item_to_update,
             { new: true, runValidators: true }
         );
         

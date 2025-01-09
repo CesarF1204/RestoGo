@@ -81,8 +81,9 @@ const CreateItem = () => {
                     <span className="text-red-500">{errors.description.message}</span>
                 )}
 
-                <label htmlFor="description" className="mb-2 font-medium">Meal Category:</label>
-                <select 
+                <label htmlFor="mealCategory" className="mb-2 font-medium">Meal Category:</label>
+                <select
+                    id="mealCategory"
                     className="p-2 rounded border border-gray-300 ring-2 ring-black-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     {...register('mealCategory', { required: '*This field is required' })}>
                         <option value="">---</option>

@@ -67,11 +67,13 @@ const Home = () => {
                 {items.map((item) => (
                     <div key={item._id} className="w-full md:w-1/3 px-2 mb-4">
                         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                            <img
-                                src={item.image}
-                                className="w-full h-68 object-cover"
-                                alt={item.name}
-                            />
+                            <div className="flex justify-center items-center">
+                                <img
+                                    src={item.image}
+                                    className="w-[200px] h-[200px] object-cover"
+                                    alt={item.name}
+                                />
+                            </div>
                             <div className="p-4 text-center">
                                 <p className="text-gray-600 text-sm mt-2">
                                     Price: ₱{item.price}

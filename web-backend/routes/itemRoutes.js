@@ -20,7 +20,7 @@ router.get('/:id', fetchItemById);
 router.post('/', upload.single('image'), createItem);
 
 /* Route for updating an item */
-router.put('/:id', updateItem);
+router.put('/:id', upload.single('image'), updateItem);
 
 /* Route for deleting an item */
 router.delete('/:id', deleteItem);

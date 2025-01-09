@@ -25,17 +25,13 @@ const EditItem = () => {
                 /* Call fetchItemById from api-client for fetching details of the selected item */
                 const response = await apiClient.fetchItemById(item_id);
                 /* Set the response to item state */
-                setItem(response || []);
-
-                /* Check if response is valid */
-                if(response){
-                    /* Populate form fields with fetched data */
-                    const items = Object.keys(response);
-                    for(let i = 0; i < items.length; i++) {
-                        const item = items[i];
-                        setValue(item, response[item]);
-                    }
-                }
+                setItem(response || {});
+                /* Set the default value of the fields */
+                setValue("name", response.name);
+                setValue("description", response.description);
+                setValue("mealCategory", response.mealCategory);
+                setValue("price", response.price);
+                setValue("quantity", response.quantity);
             } catch (error) {
                 console.error('Error fetching item:', error);
             }
@@ -45,13 +41,18 @@ const EditItem = () => {
     }, [item_id, setValue]); 
 
     /* Function to fetch details of the selected item from the API */
-    const onSubmit = async (form_data) => {
+    const onSubmit = async (data) => {
         try{
-            /* Check if there's no image submitted */
-            if (typeof form_data.image === 'object' && Object.keys(form_data.image).length === 0) {
-                /* Set form_data.image from the selected item image default value */
-                form_data.image = item.image;
-            }
+            const form_data = new FormData();
+
+            /* Append form data fields */
+            form_data.append("name", data.name);
+            form_data.append("description", data.description);
+            form_data.append("mealCategory", data.mealCategory);
+            form_data.append("image", data.image[0] || item.image);
+            form_data.append("price", data.price);
+            form_data.append("quantity", data.quantity);
+
             /* Set isUpdating to true */
             setIsUpdating(true);
 
@@ -88,7 +89,6 @@ const EditItem = () => {
                     type="text"
                     id="name"
                     className="p-2 rounded border border-gray-300 ring-2 ring-black-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    defaultValue={item.name}
                     {...register("name", { required: "*This field is required" })}
                 />
                 {errors.name && (
@@ -101,17 +101,16 @@ const EditItem = () => {
                     name="description"
                     rows={5}
                     className="p-2 rounded border border-gray-300 ring-2 ring-black-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    defaultValue={item.description}
                     {...register("description", { required: "*This field is required" })}
                 />
                 {errors.description && (
                     <span className="text-red-500">{errors.description.message}</span>
                 )}
 
-                <label htmlFor="description" className="mb-2 font-medium">Meal Category:</label>
+                <label htmlFor="mealCategory" className="mb-2 font-medium">Meal Category:</label>
                 <select 
+                    id="mealCategory"
                     className="p-2 rounded border border-gray-300 ring-2 ring-black-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    defaultValue={item.mealCategory}
                     {...register('mealCategory', { required: '*This field is required' })}>
                         <option value="">---</option>
                         <option value="breakfast">Breakfast</option>
@@ -126,7 +125,7 @@ const EditItem = () => {
                 <label htmlFor="item_image" className="mb-2 font-medium">Image:</label>
                 <input
                     type="file"
-                    id="image"
+                    id="item_image"
                     accept="image/*"
                     className="p-2 rounded border border-gray-300 ring-2 ring-black-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     {...register("image")}
@@ -140,7 +139,6 @@ const EditItem = () => {
                     type="number"
                     id="price"
                     className="p-2 rounded border border-gray-300 ring-2 ring-black-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    defaultValue={item.price}
                     {...register("price", { required: "*This field is required", validate: value => value >= 0 || "*Price must be greater than or equal to 0" })}
                 />
                 {errors.price && (
@@ -152,7 +150,6 @@ const EditItem = () => {
                     type="number"
                     id="quantity"
                     className="p-2 rounded border border-gray-300 ring-2 ring-black-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    defaultValue={item.quantity}
                     {...register("quantity", { required: "*This field is required", validate: value => value >= 0 || "*Quantity must be greater than or equal to 0" })}
                 />
                 {errors.quantity && (
