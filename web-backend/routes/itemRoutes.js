@@ -6,6 +6,7 @@ import {
     updateItem,
     deleteItem,
 } from '../controllers/itemController.js';
+import upload from '../utils/uploadFile.js';
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.get('/', fetchItems);
 router.get('/:id', fetchItemById);
 
 /* Route for creating an item */
-router.post('/', createItem);
+router.post('/', upload.single('image'), createItem);
 
 /* Route for updating an item */
 router.put('/:id', updateItem);

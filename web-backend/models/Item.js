@@ -21,7 +21,7 @@ const itemSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     mealCategory: { type: String, enum: ['breakfast', 'lunch', 'dinner', 'drinks'], required: true },
-    image: { type: String, default: "https://i.imgur.com/oaNsfJ0.png" },
+    image: { type: String },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
 }, { timestamps: true });

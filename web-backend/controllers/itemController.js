@@ -1,4 +1,5 @@
 import Item from '../models/Item.js';
+import { getUploadedImageUrl } from '../helpers/globalHelper.js';
 
 /**
 * DOCU: This function is used for fetching the items from Item DB. <br>
@@ -65,7 +66,17 @@ const createItem = async (req, res) => {
     try {
         /* Query to create an item using the data from the request body */
         const item = await Item.create(req.body);
-        
+
+        /* Check if there is an uploaded image file */
+        if(req.file){
+            /* Call getUploadedImageUrl helper to get the image url uploaded */
+            const image_url = await getUploadedImageUrl(req.file);
+            /* Assign and save to seminar the uploaded image URL to the speaker's image field */
+            item.image = image_url;
+            /* Save the updated item to the DB */
+            await item.save();
+        }
+
         res.status(201).json({ message: 'Item created successfully', item });
     } catch (error) {
         console.error('Error creating item:', error);

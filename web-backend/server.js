@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { v2 as cloudinary } from 'cloudinary'; 
 import connectDB from './config/db.js';
 import itemRoutes from './routes/itemRoutes.js';
 
@@ -9,6 +10,13 @@ dotenv.config();
 
 /* Connect to the database */
 connectDB();
+
+/* Cloudinary configuration */
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 const app = express();
 

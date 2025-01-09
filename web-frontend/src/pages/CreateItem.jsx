@@ -14,14 +14,19 @@ const CreateItem = () => {
     /* Extract the needed function in useForm() */
     const { register, formState: { errors }, handleSubmit } = useForm();
 
-    /* Function to fetch items from the API */
-    const onSubmit = async (form_data) => {
+    /* Function to create items from the API */
+    const onSubmit = async (data) => {
         try{
-            /* Check if there's no image submitted */
-            if (typeof form_data.image === 'object' && Object.keys(form_data.image).length === 0) {
-                /* Set form_data.image to a given default image */
-                form_data.image = 'https://i.imgur.com/oaNsfJ0.png';
-            }
+            const form_data = new FormData();
+
+            /* Append form data fields */
+            form_data.append("name", data.name);
+            form_data.append("description", data.description);
+            form_data.append("mealCategory", data.mealCategory);
+            form_data.append("image", data.image[0] || "https://i.imgur.com/oaNsfJ0.png");
+            form_data.append("price", data.price);
+            form_data.append("quantity", data.quantity);
+
             /* Set isCreating to true */
             setIsCreating(true);
 
@@ -93,7 +98,7 @@ const CreateItem = () => {
                 <label htmlFor="item_image" className="mb-2 font-medium">Image:</label>
                 <input
                     type="file"
-                    id="image"
+                    id="item_image"
                     accept="image/*"
                     className="p-2 rounded border border-gray-300 ring-2 ring-black-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     {...register("image")}
