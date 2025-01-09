@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom';
 
 const AppNavbar = () => {
     const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false);
-    
+    const sidebarRef = useRef(null);
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
-
-    const sidebarRef = useRef(null);
 
     return (
         <nav className="bg-gray-900 p-4 shadow-md sticky top-0 z-10 h-20">

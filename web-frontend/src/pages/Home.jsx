@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import * as apiClient from '../api-client';
 import ItemModal from '../components/ItemModal';
+import { capitalizeFirstLetter } from '../helpers/globalHelpers';
 
 const Home = () => {
     /* State to manage items */
     const [items, setItems] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [refetchCount, setRefetchCount] = useState(0);
 
     /* Fetch items when component mounts */
     useEffect(() => {
@@ -20,7 +22,7 @@ const Home = () => {
         };
 
         fetchItems();
-    }, []); 
+    }, [refetchCount]); 
 
     /* Handle the showing of the modal */
     const openModal = (item) => {
@@ -70,13 +72,15 @@ const Home = () => {
                                 className="w-full h-68 object-cover"
                                 alt={item.name}
                             />
-                            
                             <div className="p-4 text-center">
+                                <p className="text-gray-600 text-sm mt-2">
+                                    Price: ₱{item.price}
+                                </p>
                                 <h5 className="text-lg font-bold text-gray-800">
-                                    {item.name}
+                                    {capitalizeFirstLetter(item.name)}
                                 </h5>
                                 <p className="text-gray-600 text-sm mt-2">
-                                    ₱{item.price}
+                                    Quantity: {item.quantity}
                                 </p>
                                 <button
                                     onClick={() => openModal(item)}
@@ -96,6 +100,7 @@ const Home = () => {
                     selectedItem={selectedItem}
                     closeModal={closeModal}
                     handleOutsideClick={handleOutsideClick}
+                    setRefetchCount={setRefetchCount}
             />
         </div>
     );

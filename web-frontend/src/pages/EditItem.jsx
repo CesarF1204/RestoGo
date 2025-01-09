@@ -7,17 +7,14 @@ import * as apiClient from '../api-client';
 
 const EditItem = () => {
     const [ isUpdating, setIsUpdating ] = useState(false);
-    
     /* Navigate to different routes */
     const navigate = useNavigate();
-
+    /* Extract showToast function from context */
     const { showToast } = useAppContext();
-
+    /* Extract the needed function in useForm() */
     const { register, formState: { errors }, handleSubmit, setValue } = useForm();
-
     /* State to manage items */
     const [item, setItem] = useState({});
-
     /* Get item id in params */
     const { id: item_id } = useParams();
 
@@ -25,13 +22,19 @@ const EditItem = () => {
     useEffect(() => {
         const fetchItemById = async () => {
             try {
+                /* Call fetchItemById from api-client for fetching details of the selected item */
                 const response = await apiClient.fetchItemById(item_id);
+                /* Set the response to item state */
                 setItem(response || []);
+
+                /* Check if response is valid */
                 if(response){
                     /* Populate form fields with fetched data */
-                    Object.keys(response).forEach((key) => {
-                        setValue(key, response[key]);
-                    });
+                    const items = Object.keys(response);
+                    for(let i = 0; i < items.length; i++) {
+                        const item = items[i];
+                        setValue(item, response[item]);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching item:', error);
@@ -41,34 +44,38 @@ const EditItem = () => {
         fetchItemById();
     }, [item_id, setValue]); 
 
-    /* Function to update item from the API */
+    /* Function to fetch details of the selected item from the API */
     const onSubmit = async (form_data) => {
         try{
-            console.log('form_data :>> ', form_data);
+            /* Check if there's no image submitted */
             if (typeof form_data.image === 'object' && Object.keys(form_data.image).length === 0) {
+                /* Set form_data.image from the selected item image default value */
                 form_data.image = item.image;
             }
-
+            /* Set isUpdating to true */
             setIsUpdating(true);
 
+            /* Call updateItem from api-client for updating an item */
             const response = await apiClient.updateItem(item_id, form_data);
 
+            /* Check if response is valid */
             if(response){
                 /* Show success toast */
                 showToast({ message: "Item Updated", type: "SUCCESS" })
-
-                setIsUpdating(false);
+                /* Navigate to home */
                 navigate('/');
             }
             else{
-                setIsUpdating(false);
                 throw new Error('Failed to update item');
             }
-
         }
         catch(error){
             console.error('Error updating item:', error);
             showToast({ message: error.message, type: "ERROR"});
+        }
+        finally {
+            /* Always set isUpdating back to false regardless whether the update succeeds or fails.*/
+            setIsUpdating(false);
         }
     }
 

@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="container mx-auto text-center">
                 <p>&copy; 2025 RestoGo. All Rights Reserved.</p>
                 <span>Cesar Francisco</span>
-                <div className="flex space-x-4 justify-center mt-2">
+                <div className="flex justify-center mt-2">
                     <a href="https://www.facebook.com/cesarfrancisco120495/" target="_blank" rel="noopener noreferrer" className="mx-2 text-white">
                         <FaFacebook size={24} className="hover:text-blue-600" />
                     </a>

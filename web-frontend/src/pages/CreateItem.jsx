@@ -7,42 +7,45 @@ import * as apiClient from '../api-client';
 
 const CreateItem = () => {
     const [ isCreating, setIsCreating ] = useState(false);
-
     /* Navigate to different routes */
     const navigate = useNavigate();
-
+    /* Extract showToast function from context */
     const { showToast } = useAppContext();
-
+    /* Extract the needed function in useForm() */
     const { register, formState: { errors }, handleSubmit } = useForm();
 
     /* Function to fetch items from the API */
     const onSubmit = async (form_data) => {
         try{
+            /* Check if there's no image submitted */
             if (typeof form_data.image === 'object' && Object.keys(form_data.image).length === 0) {
+                /* Set form_data.image to a given default image */
                 form_data.image = 'https://i.imgur.com/oaNsfJ0.png';
             }
-
+            /* Set isCreating to true */
             setIsCreating(true);
 
+            /* Call createItem from api-client for creating an item */
             const response = await apiClient.createItem(form_data);
-            console.log('User created:', response);
 
+            /* Check if response is valid */
             if(response){
                 /* Show success toast */
                 showToast({ message: "Item Created", type: "SUCCESS" })
-
-                setIsCreating(false);
+                /* Navigate to home */
                 navigate('/');
             }
             else{
-                setIsCreating(false);
                 throw new Error('Failed to create item');
             }
-
         }
         catch(error){
             console.error('Error creating item:', error);
             showToast({ message: error.message, type: "ERROR"});
+        }
+        finally {
+            /* Always set isCreating back to false regardless whether the creation succeeds or fails.*/
+            setIsCreating(false);
         }
     }
 

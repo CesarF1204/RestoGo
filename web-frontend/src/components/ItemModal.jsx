@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import DeleteModal from './DeleteModal';
+import { capitalizeFirstLetter } from '../helpers/globalHelpers';
 
-const ItemModal = ({ showModal, selectedItem, closeModal, handleOutsideClick }) => {
+const ItemModal = ({ showModal, selectedItem, closeModal, handleOutsideClick, setRefetchCount }) => {
+    /* State for showing delete modal */
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+
     /* Check if modal is not shown or no item is selected, return null (don't render anything) */
     if (!showModal || !selectedItem) return null;
     
@@ -20,7 +25,7 @@ const ItemModal = ({ showModal, selectedItem, closeModal, handleOutsideClick }) 
                         className="text-lg font-semibold text-gray-800"
                         id="itemModalLabel"
                     >
-                        {selectedItem.name}
+                        {capitalizeFirstLetter(selectedItem.name)}
                     </h5>
                     <button
                         type="button"
@@ -42,12 +47,14 @@ const ItemModal = ({ showModal, selectedItem, closeModal, handleOutsideClick }) 
                         <strong className="font-medium">Price:</strong> ₱{selectedItem.price}
                     </p>
                     <p className="text-sm text-gray-700 mb-1">
-                        <strong className="font-medium">Category:</strong> {selectedItem.mealCategory}
+                        <strong className="font-medium">Quantity:</strong> {selectedItem.quantity}
+                    </p>
+                    <p className="text-sm text-gray-700 mb-1">
+                        <strong className="font-medium">Category:</strong> {capitalizeFirstLetter(selectedItem.mealCategory)}
                     </p>
                     <p className="text-sm text-gray-700">
                         <strong className="font-medium">Description:</strong> {selectedItem.description}
                     </p>
-
                     {/* Admin Actions */}
                     <div className="flex space-x-4 items-center mt-6">
                         <Link to={`/edit_item/${selectedItem._id}`} className="text-blue-400 hover:text-blue-600 inline-flex items-center">
@@ -57,6 +64,10 @@ const ItemModal = ({ showModal, selectedItem, closeModal, handleOutsideClick }) 
                             <FaTrashAlt className="mr-1" /> Delete 
                         </Link>
                     </div>
+                    {/* Delete Confirmation Modal */}
+                    {showDeleteModal && (
+                        <DeleteModal setShowDeleteModal={setShowDeleteModal} closeModal={closeModal} itemId={selectedItem._id} setRefetchCount={setRefetchCount} />
+                    )}
                 </div>
             </div>
         </div>
