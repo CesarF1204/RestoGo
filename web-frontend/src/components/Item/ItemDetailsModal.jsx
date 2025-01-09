@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import DeleteModal from './DeleteModal';
-import { capitalizeFirstLetter } from '../helpers/globalHelpers';
+import DeleteItemModal from './DeleteItemModal';
+import { capitalizeFirstLetter } from '../../helpers/globalHelpers';
 
-const ItemModal = ({ showModal, selectedItem, closeModal, handleOutsideClick, setRefetchCount }) => {
+const ItemDetailsModal = ({ showModal, selectedItem, closeModal, handleOutsideClick, setRefetchCount }) => {
     /* State for showing delete modal */
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -65,7 +65,7 @@ const ItemModal = ({ showModal, selectedItem, closeModal, handleOutsideClick, se
                     </div>
                     {/* Delete Confirmation Modal */}
                     {showDeleteModal && (
-                        <DeleteModal setShowDeleteModal={setShowDeleteModal} closeModal={closeModal} itemId={selectedItem._id} setRefetchCount={setRefetchCount} />
+                        <DeleteItemModal setShowDeleteModal={setShowDeleteModal} closeModal={closeModal} itemId={selectedItem._id} setRefetchCount={setRefetchCount} />
                     )}
                 </div>
             </div>
@@ -73,4 +73,4 @@ const ItemModal = ({ showModal, selectedItem, closeModal, handleOutsideClick, se
     );
 }
 
-export default ItemModal
+export default ItemDetailsModal

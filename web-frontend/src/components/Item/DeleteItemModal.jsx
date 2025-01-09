@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppContext } from '../contexts/AppContext';
-import * as apiClient from '../api-client';
+import { useAppContext } from '../../contexts/AppContext';
+import * as apiClient from '../../api-client';
 
-const DeleteModal = ({ setShowDeleteModal, closeModal, setRefetchCount, itemId: item_id }) => {
+const DeleteItemModal = ({ setShowDeleteModal, closeModal, setRefetchCount, itemId: item_id }) => {
     /* Extract showToast function from context */
     const { showToast } = useAppContext();
     /* Navigate to different routes */
@@ -64,4 +64,4 @@ const DeleteModal = ({ setShowDeleteModal, closeModal, setRefetchCount, itemId: 
     )
 }
 
-export default DeleteModal
+export default DeleteItemModal

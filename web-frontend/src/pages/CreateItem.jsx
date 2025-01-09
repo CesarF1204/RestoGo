@@ -119,7 +119,6 @@ const CreateItem = () => {
                     <span className="text-red-500">{errors.price.message}</span>
                 )}
 
-
                 <label htmlFor="quantity" className="mb-2 font-medium">Quantity:</label>
                 <input
                     type="number"
