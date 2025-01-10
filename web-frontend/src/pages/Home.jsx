@@ -74,7 +74,7 @@ const Home = ({ setCartCount }) => {
     /* Reset the page to 1 when the limitation changes */
     useEffect(() => {
         setPage(1);
-    }, [limit, debouncedSearch]);
+    }, [limit, category, debouncedSearch]);
 
     return (
         <div className="mt-5">
