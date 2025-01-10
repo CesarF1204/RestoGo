@@ -198,7 +198,7 @@ const validateToken = async () => {
 }
 
 /**
-* DOCU: This function is used for signing in users. <br>
+* DOCU: This function is used for signing in users that sends a POST request to the /api/users/sign_in endpoint. <br>
 * This is being called when user want to sign in. <br>
 * Last Updated Date: January 10, 2025 <br>
 * @function
@@ -230,7 +230,7 @@ const signIn = async (form_data) => {
 }
 
 /**
-* DOCU: This function is used for registering account. <br>
+* DOCU: This function is used for registering account that sends a POST request to the /api/users/register endpoint <br>
 * This is being called when user want create an account. <br>
 * Last Updated Date: January 10, 2025 <br>
 * @function
@@ -262,11 +262,10 @@ const register = async (form_data) => {
 }
 
 /**
-* DOCU: This function is used for signing in users. <br>
-* This is being called when user want to sign in. <br>
+* DOCU: This function is used for logging out user that sends a POST request to the /api/users/logout endpoint <br>
+* This is being called when user want to log out. <br>
 * Last Updated Date: January 10, 2025 <br>
 * @function
-* @param {object} form_data - { email, password } - values of the sign in form
 * @author Cesar
 */
 const logOut = async () => {
