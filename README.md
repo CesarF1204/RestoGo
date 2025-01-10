@@ -9,7 +9,7 @@ RestoGo is a simple web application designed to manage a menu of food items. It 
 - Token-based authentication.
 
 ### 2. Add Item
-- Users can add new food items to the menu.
+- Admin can add new food items to the menu.
 - Each item requires specific details such as:
     - Name of the food item
     - Description
@@ -23,7 +23,7 @@ RestoGo is a simple web application designed to manage a menu of food items. It 
 - Shows details such as the name, description, meal category, image, price, and quantity.
 
 ### 4. Update Item
-- Allows users to modify existing food items.
+- Allows admin to modify existing food items.
 - Fields that can be updated include:
     - Name
     - Description
@@ -33,7 +33,7 @@ RestoGo is a simple web application designed to manage a menu of food items. It 
     - Quantity
 
 ### 5. Delete Item
-- Enables users to remove a food item from the menu.
+- Enables admin to remove a food item from the menu.
 - Ensures data integrity by confirming the action before deletion.
 
 ### *Both frontend and backend has validations to ensure secure and valid data input.*
