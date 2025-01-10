@@ -56,12 +56,11 @@ RestoGo is a simple web application designed to manage a menu of food items. It 
 ## Steps to Run Locally
 ### 1. Clone this repository:
 ```
-mkdir RestoGo
-cd RestoGo
 git clone https://github.com/CesarF1204/RestoGo.git
 ```
 ### 2. Set up the Backend and create your own .env file:
 ```
+cd RestoGo
 cd web-backend
 touch .env
 ```
@@ -71,11 +70,15 @@ PORT=
 FRONTEND_URL=
 MONGO_URI=
 
+# JWT Variables
+JWT_SECRET=
+
 # Cloudinary Variables
 CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 ```
+*Create an account to https://cloudinary.com/ and get the cloudinary api keys.*
 ### 4. Install dependencies and start the server:
 ```
 npm install
