@@ -7,7 +7,7 @@ const ItemData = ({ item, openModal, setCartCount }) => {
     /* Navigate to different routes */
     const navigate = useNavigate();
 
-    const { isLoggedIn } = useAppContext();
+    const { showToast, isLoggedIn } = useAppContext();
 
     /* Function to handle add to cart */
     const handleAddToCart = () => {
@@ -16,6 +16,7 @@ const ItemData = ({ item, openModal, setCartCount }) => {
             setCartCount((prevCount) => prevCount + 1);
         }
         else{
+            showToast({ message: "You are not logged in. Please log in to continue.", type: "ERROR"});
             navigate('/sign_in');
         }
     };
