@@ -83,7 +83,7 @@ const AppNavbar = ({ cartCount, setCartCount }) => {
                     {/* Check if user is logged in */}
                     { isLoggedIn
                         ?
-                            <LogOutButton setCartCount={setCartCount} />
+                            <LogOutButton setCartCount={setCartCount} setIsNavbarCollapsed={setIsNavbarCollapsed} />
                         :
                             <SignInButton />
                     }

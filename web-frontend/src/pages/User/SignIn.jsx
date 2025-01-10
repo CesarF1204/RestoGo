@@ -9,7 +9,7 @@ const SignIn = () => {
     /* Navigate to different routes */
     const navigate = useNavigate();
     /* Extract showToast function from context */
-    const { showToast } = useAppContext();
+    const { showToast, setToken } = useAppContext();
     /* Extract the needed function in useForm() */
     const { register, formState: { errors }, handleSubmit } = useForm();
 
@@ -25,7 +25,7 @@ const SignIn = () => {
             /* Check if response is valid */
             if(response){
                 /* Set auth token to localStorage */
-                localStorage.setItem('auth_token', response.token);
+                setToken(response.token);
                 /* Show success toast */
                 showToast({ message: "Sign in Successful", type: "SUCCESS" })
                 /* Navigate to home */

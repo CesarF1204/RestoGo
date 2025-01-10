@@ -11,9 +11,7 @@ const AppContextProvider = ({ children }) => {
     const [userData, setUserData] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
-
-    /* Get auth_token from local storage */
-    const token = localStorage.getItem('auth_token') || null;
+    const [token, setToken] = useState(null);
 
     /* Function to show a toast message */
     const showToast = (toastMessage) => {
@@ -23,22 +21,17 @@ const AppContextProvider = ({ children }) => {
     /* Validate token when component mounts */
     useEffect(() => {
         const validateToken = async () => {
-            /* Check if there's no token, set isLoggedIn to false */
-            if (!token) {
-                setIsLoggedIn(false);
-                setLoading(false);
-                return;
-            }
-
             try {
                 /* Call validateToken for validating token */
                 const response = await apiClient.validateToken();
+                console.log('response :>> ', response);
                 /* Check if response is valid */
                 if(response){
                     /* Set login status to true if token is valid */
                     setIsLoggedIn(true); 
                     /* Get user data from the response and set it to userData state  */
                     setUserData(response);
+                    setToken(response.token)
                 }
                 else{
                     /* Set login status to true if token is not valid */
@@ -53,14 +46,16 @@ const AppContextProvider = ({ children }) => {
             }
         };
         validateToken();
-    }, [token]); 
-
+    }, [token]);
+    
     return (
         <AppContext.Provider
             value={{
                 showToast,
                 isLoggedIn,
+                setIsLoggedIn,
                 userData,
+                setToken
             }}
         >
             {/* Render the toast component if a toast message is present */}

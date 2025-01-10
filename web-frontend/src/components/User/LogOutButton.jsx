@@ -7,15 +7,15 @@ const LogOutButton = ({ setCartCount, setIsNavbarCollapsed }) => {
     /* Navigate to different routes */
     const navigate = useNavigate();
     /* Extract showToast function from context */
-    const { showToast } = useAppContext();
+    const { showToast, setIsLoggedIn } = useAppContext();
 
     /* Function to handle logout */
     const handleLogOut = async () => {
         try{
             /* Call logOut from api-client to sign out user */
             await apiClient.logOut();
-            /* Remove auth_token from local storage */
-            localStorage.removeItem('auth_token');
+            /* Set isLoggedIn to false */
+            setIsLoggedIn(false);
             /* Set the default cart count to 0 */
             setCartCount(0);
             /* Close sidebar */
