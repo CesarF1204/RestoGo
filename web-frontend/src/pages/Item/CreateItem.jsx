@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa";
 import { useAppContext } from '../../contexts/AppContext';
 import * as apiClient from '../../api-client';
+import { capitalizeFirstLetter } from '../../helpers/globalHelpers';
 
 const CreateItem = () => {
     const [ isCreating, setIsCreating ] = useState(false);
@@ -20,7 +21,7 @@ const CreateItem = () => {
             const form_data = new FormData();
 
             /* Append form data fields */
-            form_data.append("name", data.name);
+            form_data.append("name", capitalizeFirstLetter(data.name));
             form_data.append("description", data.description);
             form_data.append("mealCategory", data.mealCategory);
             form_data.append("image", data.image[0] || "https://i.imgur.com/oaNsfJ0.png");
