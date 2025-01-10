@@ -4,7 +4,7 @@ import { validationResult } from "express-validator";
 /**
 * DOCU: This function is used for fetching the items from Item DB. <br>
 * This is being called when user want to get the items. <br>
-* Last Updated Date: January 09, 2025 <br>
+* Last Updated Date: January 11, 2025 <br>
 * @function
 * @param {object} req - request
 * @param {object} res - response
@@ -23,12 +23,12 @@ const fetchItems = async (req, res) => {
 
         /* Check if value for search is provided */
         if(search){
-            filter.name = { $regex: search, $options: 'i' };
+            filter.name =  { $regex: new RegExp(search, 'i') }
         }
 
         /* Check if value for category is provided */
         if(category){
-            filter.mealCategory = { $regex: category, $options: 'i' };
+            filter.mealCategory =  { $regex: new RegExp(category, 'i') }
         }
 
         /* This will be pass to the query to handle case sensitive data */
