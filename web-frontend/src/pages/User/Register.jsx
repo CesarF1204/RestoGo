@@ -24,8 +24,6 @@ const Register = () => {
 
             /* Check if response is valid */
             if(response){
-                /* Set auth token to localStorage */
-                localStorage.setItem('auth_token', response.token);
                 /* Show success toast */
                 showToast({ message: "Registered Successful!", type: "SUCCESS" })
                 /* Navigate to sign in page */

@@ -8,7 +8,7 @@ const AppContext = createContext(undefined);
 const AppContextProvider = ({ children }) => {
     /* State for toast messages */
     const [toast, setToast] = useState(undefined);
-    const [userData, setUserData] = useState(false);
+    const [userData, setUserData] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
 
