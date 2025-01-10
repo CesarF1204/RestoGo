@@ -24,7 +24,7 @@ const AppContextProvider = ({ children }) => {
             try {
                 /* Call validateToken for validating token */
                 const response = await apiClient.validateToken();
-                console.log('response :>> ', response);
+                
                 /* Check if response is valid */
                 if(response){
                     /* Set login status to true if token is valid */
