@@ -39,8 +39,12 @@ const register = async (req, res) => {
         /* Use trim to remove spaces from the start of inputted value */
         const emailAddress = email.trim();
 
+        /* Get the total number of registered users; assign 'admin' role to the first user */
+        const user_count = await User.countDocuments();
+        const user_role = user_count === 0 ? 'admin' : 'user';
+
         /* Create a new user in the database */
-        const user = await User.create({ firstName: capitalizedFirstName, lastName: capitalizedLastName, email: emailAddress, password: hashedPassword });
+        const user = await User.create({ firstName: capitalizedFirstName, lastName: capitalizedLastName, email: emailAddress, password: hashedPassword, role: user_role });
 
         res.status(201).json({ message: 'User registered successfully', user });
     } catch (error) {
