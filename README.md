@@ -1,6 +1,6 @@
 # RestoGo
 
-RestoGo is a simple web application designed to manage a menu of food items. It provides users with essential functionalities to add, view, update, and delete menu items. This README provides an overview of the primary functionalities and how to use them.
+RestoGo is a simple web application designed to manage a menu of food items. It provides users with essential functionalities to add, view, update, and delete menu items.
 
 ## Features
 ### 1. Login and Register Authentication using JWT
@@ -104,4 +104,4 @@ npm run dev
 ```
 http://localhost:5173/
 ```
-Enjoy working with the RestoGo!
+Enjoy working with RestoGo!
