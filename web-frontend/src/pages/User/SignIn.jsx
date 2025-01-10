@@ -24,7 +24,7 @@ const SignIn = () => {
 
             /* Check if response is valid */
             if(response){
-                /* Set auth token to localStorage */
+                /* Set auth token to token state */
                 setToken(response.token);
                 /* Show success toast */
                 showToast({ message: "Sign in Successful", type: "SUCCESS" })
