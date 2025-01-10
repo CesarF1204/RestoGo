@@ -132,7 +132,7 @@ const createItem = async (req, res) => {
 /**
 * DOCU: This function is used for updating the item to the Item DB. <br>
 * This is being called when user want to update an item. <br>
-* Last Updated Date: January 10, 2025 <br>
+* Last Updated Date: January 11, 2025 <br>
 * @function
 * @param {object} req - request
 * @param {object} res - response
@@ -145,6 +145,12 @@ const updateItem = async (req, res) => {
         if (!errors.isEmpty()) {
             return res.status(400).json({ message: errors.array().map(error => error.msg) });
         }
+
+        /* Find item using item name */
+        const existingItem = await Item.findOne({ name: req.body.name });
+
+        /* Check if the item exists with the given item name */
+        if (existingItem) return res.status(400).json({ message: 'Item already exists. Please try again' });
 
         const { id } = req.params;
         const item_to_update = req.body;
