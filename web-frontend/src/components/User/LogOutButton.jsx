@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../contexts/AppContext';
 import * as apiClient from '../../api-client';
 
-const LogOutButton = ({ setCartCount }) => {
+const LogOutButton = ({ setCartCount, setIsNavbarCollapsed }) => {
     /* Navigate to different routes */
     const navigate = useNavigate();
     /* Extract showToast function from context */
@@ -18,6 +18,8 @@ const LogOutButton = ({ setCartCount }) => {
             localStorage.removeItem('auth_token');
             /* Set the default cart count to 0 */
             setCartCount(0);
+            /* Close sidebar */
+            setIsNavbarCollapsed(false);
             /* Show success toast */
             showToast({ message: "Logged Out!", type: "ERROR" })
             /* Navigate to sign in */

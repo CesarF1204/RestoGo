@@ -130,7 +130,7 @@ const AppNavbar = ({ cartCount, setCartCount }) => {
                     {/* Check if user is logged in */}
                     { isLoggedIn 
                         ?
-                            <LogOutButton setCartCount={setCartCount} />
+                            <LogOutButton setCartCount={setCartCount} setIsNavbarCollapsed={setIsNavbarCollapsed} />
                         :
                             <SignInButton 
                                 className="px-4 py-2 rounded text-white hover:bg-gray-700"
