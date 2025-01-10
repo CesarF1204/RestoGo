@@ -3,8 +3,12 @@
 RestoGo is a simple web application designed to manage a menu of food items. It provides users with essential functionalities to add, view, update, and delete menu items. This README provides an overview of the primary functionalities and how to use them.
 
 ## Features
+### 1. Login and Register Authentication using JWT
+- User authentication with JWT, including personal details such as first name, last name, email, and password.
+- Passwords are securely hashed and stored using bcrypt.
+- Token-based authentication.
 
-### 1. Add Item
+### 2. Add Item
 - Users can add new food items to the menu.
 - Each item requires specific details such as:
     - Name of the food item
@@ -14,11 +18,11 @@ RestoGo is a simple web application designed to manage a menu of food items. It 
     - Price
     - Quantity
 
-### 2. View Items
+### 3. View Items
 - Displays a list of all available menu items.
 - Shows details such as the name, description, meal category, image, price, and quantity.
 
-### 3. Update Item
+### 4. Update Item
 - Allows users to modify existing food items.
 - Fields that can be updated include:
     - Name
@@ -28,7 +32,7 @@ RestoGo is a simple web application designed to manage a menu of food items. It 
     - Price
     - Quantity
 
-### 4. Delete Item
+### 5. Delete Item
 - Enables users to remove a food item from the menu.
 - Ensures data integrity by confirming the action before deletion.
 
@@ -38,6 +42,7 @@ RestoGo is a simple web application designed to manage a menu of food items. It 
 - **Frontend**: React.js, Tailwind CSS
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
+- **Authentication**: JSON Web Tokens (JWT) and bcrypt
 - **Cloud Storage**: Cloudinary (for image uploading)
 - **File Handling**: Multer (for file uploads)
 
