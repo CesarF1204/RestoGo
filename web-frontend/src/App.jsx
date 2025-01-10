@@ -16,7 +16,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={ <Layout cartCount={cartCount}> <Home setCartCount={setCartCount} /> </Layout>} />
+        <Route path="/" element={ <Layout cartCount={cartCount} setCartCount={setCartCount}> <Home setCartCount={setCartCount} /> </Layout>} />
         {/* Redirect to home page if logged in, otherwise redirect to sign in page */}
         <Route path="/sign_in" element={isLoggedIn ? <Navigate to="/" /> : <Layout> <SignIn /> </Layout>} />
         {/* Redirect to home page if logged in, otherwise redirect to registration page */}

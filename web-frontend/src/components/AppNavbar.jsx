@@ -6,7 +6,7 @@ import LogOutButton from './User/LogOutButton';
 import SignInButton from './User/SignInButton';
 import { useAppContext } from '../contexts/AppContext';
 
-const AppNavbar = ({ cartCount }) => {
+const AppNavbar = ({ cartCount, setCartCount }) => {
     const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false);
     const sidebarRef = useRef(null);
     const location = useLocation();
@@ -30,6 +30,11 @@ const AppNavbar = ({ cartCount }) => {
         };
     }, [isNavbarCollapsed]);
 
+    /* Array of paths that will be used for hiding AddToCart Icon */
+    const hideAddToCartPaths = ['/sign_in', '/register', '/forgot_password'];
+    /* Check if the current path includes in hideAddToCartPaths */
+    const shouldHideAddToCart = hideAddToCartPaths.includes(location.pathname);
+
     return (
         <nav className="bg-gray-900 p-4 shadow-md sticky top-0 z-10 h-20">
             <div className="container mx-auto flex justify-between items-center">
@@ -48,7 +53,7 @@ const AppNavbar = ({ cartCount }) => {
                             Home
                         </Link>
                         {/* Check if authenticated user is an admin */}
-                        { userData?.user?.role === 'admin' &&
+                        { isLoggedIn && userData?.user?.role === 'admin' &&
                             <Link 
                                 to="/create_item" 
                                 className={`px-4 py-2 rounded whitespace-nowrap ${
@@ -62,7 +67,7 @@ const AppNavbar = ({ cartCount }) => {
                 </div>
                 {/* Right Section: Burger Icon */}
                 <div className="flex items-center space-x-4 lg:hidden">
-                    <AddToCart cartCount={cartCount} />
+                    {!shouldHideAddToCart && <AddToCart cartCount={cartCount} />}
                     <button 
                         className="text-white" 
                         onClick={() => setIsNavbarCollapsed(!isNavbarCollapsed)}
@@ -74,11 +79,11 @@ const AppNavbar = ({ cartCount }) => {
                 </div>
                 {/* Right Section: Notifications and Logout for large screens */}
                 <div className="hidden lg:flex items-center space-x-4">
-                    <AddToCart cartCount={cartCount} />
+                    {!shouldHideAddToCart && <AddToCart cartCount={cartCount} />}
                     {/* Check if user is logged in */}
                     { isLoggedIn
                         ?
-                            <LogOutButton />
+                            <LogOutButton setCartCount={setCartCount} />
                         :
                             <SignInButton />
                     }
@@ -111,7 +116,7 @@ const AppNavbar = ({ cartCount }) => {
                         Home
                     </Link>
                     {/* Check if authenticated user is an admin */}
-                    { userData?.user?.role === 'admin' &&
+                    { isLoggedIn && userData?.user?.role === 'admin' &&
                         <Link 
                             to="/create_item" 
                             className={`px-4 py-2 rounded ${
@@ -125,7 +130,7 @@ const AppNavbar = ({ cartCount }) => {
                     {/* Check if user is logged in */}
                     { isLoggedIn 
                         ?
-                            <LogOutButton />
+                            <LogOutButton setCartCount={setCartCount} />
                         :
                             <SignInButton 
                                 className="px-4 py-2 rounded text-white hover:bg-gray-700"
