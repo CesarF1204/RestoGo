@@ -1,4 +1,6 @@
 import express from 'express';
+import authMiddleware from '../middleware/authMiddleware.js'
+import adminMiddleware from '../middleware/adminMiddleware.js';
 import { 
     fetchItems,
     fetchItemById,
@@ -18,12 +20,24 @@ router.get('/', fetchItems);
 router.get('/:id', fetchItemById);
 
 /* Route for creating an item */
-router.post('/', upload.single('image'), itemValidationRules, createItem);
+router.post('/', 
+    authMiddleware, 
+    adminMiddleware, 
+    upload.single('image'), 
+    itemValidationRules, 
+    createItem
+);
 
 /* Route for updating an item */
-router.put('/:id', upload.single('image'), itemValidationRules, updateItem);
+router.put('/:id', 
+    authMiddleware, 
+    adminMiddleware, 
+    upload.single('image'), 
+    itemValidationRules, 
+    updateItem
+);
 
 /* Route for deleting an item */
-router.delete('/:id', deleteItem);
+router.delete('/:id', authMiddleware, adminMiddleware, deleteItem);
 
 export default router;

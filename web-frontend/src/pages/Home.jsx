@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as apiClient from '../api-client';
 import Pagination from '../components/Item/Pagination';
 import ItemDetailsModal from '../components/Item/ItemDetailsModal';

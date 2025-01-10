@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../../contexts/AppContext';
 import { capitalizeFirstLetter } from '../../helpers/globalHelpers';
 
 const ItemData = ({ item, openModal, setCartCount }) => {
+    /* Navigate to different routes */
+    const navigate = useNavigate();
 
+    const { isLoggedIn } = useAppContext();
+
+    /* Function to handle add to cart */
     const handleAddToCart = () => {
-        setCartCount((prevCount) => prevCount + 1);
+        /* Check if user is logged in, if not then redirect to /sign_in page */
+        if(isLoggedIn) {
+            setCartCount((prevCount) => prevCount + 1);
+        }
+        else{
+            navigate('/sign_in');
+        }
     };
+    
     return (
         <div key={item._id} className="w-full md:w-1/3 px-2 mb-4">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">

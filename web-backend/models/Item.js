@@ -18,7 +18,7 @@ import mongoose from 'mongoose';
 * @author Cesar
 */
 const itemSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+    name: { type: String, required: true , unique: true },
     description: { type: String, required: true },
     mealCategory: { type: String, enum: ['breakfast', 'lunch', 'dinner', 'drinks'], required: true },
     image: { type: String },

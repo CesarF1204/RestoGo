@@ -4,10 +4,14 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import DeleteItemModal from './DeleteItemModal';
 import { capitalizeFirstLetter } from '../../helpers/globalHelpers';
+import { useAppContext } from '../../contexts/AppContext';
 
 const ItemDetailsModal = ({ showModal, selectedItem, closeModal, handleOutsideClick, setRefetchCount }) => {
     /* State for showing delete modal */
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+    /* Extract userData from app context */
+    const { userData } = useAppContext();
 
     /* Check if modal is not shown or no item is selected, return null (don't render anything) */
     if (!showModal || !selectedItem) return null;
@@ -55,14 +59,16 @@ const ItemDetailsModal = ({ showModal, selectedItem, closeModal, handleOutsideCl
                         <strong className="font-medium">Description:</strong> {selectedItem.description}
                     </p>
                     {/* Admin Actions */}
-                    <div className="flex space-x-4 items-center mt-6">
-                        <Link to={`/edit_item/${selectedItem._id}`} className="text-blue-400 hover:text-blue-600 inline-flex items-center">
-                            <FaEdit className="mr-1" /> Edit 
-                        </Link>
-                        <Link className="text-red-400 hover:text-red-600 inline-flex items-center" onClick={() => setShowDeleteModal(true)}>
-                            <FaTrashAlt className="mr-1" /> Delete 
-                        </Link>
-                    </div>
+                    { userData?.user?.role === 'admin' &&
+                            <div className="flex space-x-4 items-center mt-6">
+                            <Link to={`/edit_item/${selectedItem._id}`} className="text-blue-400 hover:text-blue-600 inline-flex items-center">
+                                <FaEdit className="mr-1" /> Edit 
+                            </Link>
+                            <Link className="text-red-400 hover:text-red-600 inline-flex items-center" onClick={() => setShowDeleteModal(true)}>
+                                <FaTrashAlt className="mr-1" /> Delete 
+                            </Link>
+                        </div>
+                    }
                     {/* Delete Confirmation Modal */}
                     {showDeleteModal && (
                         <DeleteItemModal setShowDeleteModal={setShowDeleteModal} closeModal={closeModal} itemId={selectedItem._id} setRefetchCount={setRefetchCount} />

@@ -103,6 +103,12 @@ const createItem = async (req, res) => {
             return res.status(400).json({ message: errors.array().map(error => error.msg) });
         }
 
+        /* Find item using item name */
+        const existingItem = await Item.findOne({ name: req.body.name });
+
+        /* Check if the item exists with the given item name */
+        if (existingItem) return res.status(400).json({ message: 'Item already exists. Please try again' });
+
         /* Query to create an item using the data from the request body */
         const item = await Item.create(req.body);
 

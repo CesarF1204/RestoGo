@@ -4,8 +4,8 @@ import { useAppContext } from '../../contexts/AppContext';
 import * as apiClient from '../../api-client';
 
 const DeleteItemModal = ({ setShowDeleteModal, closeModal, setRefetchCount, itemId: item_id }) => {
-    /* Extract showToast function from context */
-    const { showToast } = useAppContext();
+    /* Extract showToast and userData from context */
+    const { showToast, userData } = useAppContext();
     /* Navigate to different routes */
     const navigate = useNavigate();
 
@@ -13,7 +13,7 @@ const DeleteItemModal = ({ setShowDeleteModal, closeModal, setRefetchCount, item
     const handleItemDelete = async () => {
         try{
             /* Use deleteItem from api-client for deleting an item */
-            const response = await apiClient.deleteItem(item_id);
+            const response = await apiClient.deleteItem(userData?.token, item_id);
 
             /* Check if response valid */
             if(response){

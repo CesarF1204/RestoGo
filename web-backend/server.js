@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import { v2 as cloudinary } from 'cloudinary'; 
 import connectDB from './config/db.js';
 import ApiRoutes from './routes/api.routes.js';
@@ -30,6 +31,7 @@ app.use(cors({
 /* Middleware to parse JSON and URL encoded data */
 app.use(express.json({ limit: '50mb' })); /* Parse JSON bodies */
 app.use(express.urlencoded({ extended: true })); /* Parse URL-encoded bodies */
+app.use(cookieParser()); /* Parse cookies from incoming requests */
 
 /* Pass the app instance to the ApiRoutes to configure the routes */
 ApiRoutes(app);

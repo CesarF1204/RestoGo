@@ -2,14 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import AddToCart from './Item/AddToCart';
-// import LogOutButton from './User/LogOutButton';
+import LogOutButton from './User/LogOutButton';
 import SignInButton from './User/SignInButton';
+import { useAppContext } from '../contexts/AppContext';
 
 const AppNavbar = ({ cartCount }) => {
     const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false);
     const sidebarRef = useRef(null);
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
+
+    /* Extract isLoggedIn and userData from app context */
+    const { isLoggedIn, userData } =  useAppContext();
 
     /* Close sidebar automatically when clicking outside the sidebar */
     useEffect(() => {
@@ -43,17 +47,19 @@ const AppNavbar = ({ cartCount }) => {
                         >
                             Home
                         </Link>
-                        <Link 
-                            to="/create_item" 
-                            className={`px-4 py-2 rounded whitespace-nowrap ${
-                                isActive('/create_item') ? 'bg-gray-700 text-gray-300' : 'text-white hover:bg-gray-800'
-                            }`}
-                        >
-                            Create Item
-                        </Link>
+                        {/* Check if authenticated user is an admin */}
+                        { userData?.user?.role === 'admin' &&
+                            <Link 
+                                to="/create_item" 
+                                className={`px-4 py-2 rounded whitespace-nowrap ${
+                                    isActive('/create_item') ? 'bg-gray-700 text-gray-300' : 'text-white hover:bg-gray-800'
+                                }`}
+                            >
+                                Create Item
+                            </Link>
+                        }
                     </div>
                 </div>
-                
                 {/* Right Section: Burger Icon */}
                 <div className="flex items-center space-x-4 lg:hidden">
                     <AddToCart cartCount={cartCount} />
@@ -69,7 +75,13 @@ const AppNavbar = ({ cartCount }) => {
                 {/* Right Section: Notifications and Logout for large screens */}
                 <div className="hidden lg:flex items-center space-x-4">
                     <AddToCart cartCount={cartCount} />
-                    <SignInButton />
+                    {/* Check if user is logged in */}
+                    { isLoggedIn
+                        ?
+                            <LogOutButton />
+                        :
+                            <SignInButton />
+                    }
                 </div>
             </div>
 
@@ -98,20 +110,28 @@ const AppNavbar = ({ cartCount }) => {
                     >
                         Home
                     </Link>
-                    
-                    <Link 
-                        to="/create_item" 
-                        className={`px-4 py-2 rounded ${
-                            isActive('/create_item') ? 'bg-gray-700 text-gray-300' : 'text-white hover:bg-gray-700'
-                        }`}
-                        onClick={() => setIsNavbarCollapsed(false)}
-                    >
-                        Create Item
-                    </Link>
-                    <SignInButton 
-                        className="px-4 py-2 rounded text-white hover:bg-gray-700"
-                        onClick={() => setIsNavbarCollapsed(false)}
-                    />
+                    {/* Check if authenticated user is an admin */}
+                    { userData?.user?.role === 'admin' &&
+                        <Link 
+                            to="/create_item" 
+                            className={`px-4 py-2 rounded ${
+                                isActive('/create_item') ? 'bg-gray-700 text-gray-300' : 'text-white hover:bg-gray-700'
+                            }`}
+                            onClick={() => setIsNavbarCollapsed(false)}
+                        >
+                            Create Item
+                        </Link>
+                    }
+                    {/* Check if user is logged in */}
+                    { isLoggedIn 
+                        ?
+                            <LogOutButton />
+                        :
+                            <SignInButton 
+                                className="px-4 py-2 rounded text-white hover:bg-gray-700"
+                                onClick={() => setIsNavbarCollapsed(false)}
+                            />
+                    }
                 </div>
             </div>
         </nav> 
