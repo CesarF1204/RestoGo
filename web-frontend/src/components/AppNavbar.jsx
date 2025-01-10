@@ -1,12 +1,30 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import AddToCart from './Item/AddToCart';
+// import LogOutButton from './User/LogOutButton';
+import SignInButton from './User/SignInButton';
 
-const AppNavbar = () => {
+const AppNavbar = ({ cartCount }) => {
     const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false);
     const sidebarRef = useRef(null);
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
+
+    /* Close sidebar automatically when clicking outside the sidebar */
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (sidebarRef.current && !sidebarRef.current.contains(event.target) && isNavbarCollapsed) {
+                setIsNavbarCollapsed(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isNavbarCollapsed]);
 
     return (
         <nav className="bg-gray-900 p-4 shadow-md sticky top-0 z-10 h-20">
@@ -38,6 +56,7 @@ const AppNavbar = () => {
                 
                 {/* Right Section: Burger Icon */}
                 <div className="flex items-center space-x-4 lg:hidden">
+                    <AddToCart cartCount={cartCount} />
                     <button 
                         className="text-white" 
                         onClick={() => setIsNavbarCollapsed(!isNavbarCollapsed)}
@@ -46,6 +65,11 @@ const AppNavbar = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
+                </div>
+                {/* Right Section: Notifications and Logout for large screens */}
+                <div className="hidden lg:flex items-center space-x-4">
+                    <AddToCart cartCount={cartCount} />
+                    <SignInButton />
                 </div>
             </div>
 
@@ -84,6 +108,10 @@ const AppNavbar = () => {
                     >
                         Create Item
                     </Link>
+                    <SignInButton 
+                        className="px-4 py-2 rounded text-white hover:bg-gray-700"
+                        onClick={() => setIsNavbarCollapsed(false)}
+                    />
                 </div>
             </div>
         </nav> 

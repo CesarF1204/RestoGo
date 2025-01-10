@@ -5,7 +5,7 @@ import ItemDetailsModal from '../components/Item/ItemDetailsModal';
 import ItemData from '../components/Item/ItemData';
 import FiltersAndSearchBar from '../components/Item/FiltersAndSearchBar';
 
-const Home = () => {
+const Home = ({ setCartCount }) => {
     /* State to manage items */
     const [itemData, setItemData] = useState({});
     const [showModal, setShowModal] = useState(false);
@@ -97,7 +97,8 @@ const Home = () => {
                         <ItemData 
                             key={item._id}
                             item={item} 
-                            openModal={openModal} 
+                            openModal={openModal}
+                            setCartCount={setCartCount} 
                         />
                     ))
                 ) : (

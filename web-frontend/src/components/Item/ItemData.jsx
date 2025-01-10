@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { capitalizeFirstLetter } from '../../helpers/globalHelpers';
 
-const ItemData = ({ item, openModal }) => {
+const ItemData = ({ item, openModal, setCartCount }) => {
+
+    const handleAddToCart = () => {
+        setCartCount((prevCount) => prevCount + 1);
+    };
     return (
         <div key={item._id} className="w-full md:w-1/3 px-2 mb-4">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -30,6 +34,7 @@ const ItemData = ({ item, openModal }) => {
                         Quantity: {item.quantity}
                     </p>
                     <button
+                        onClick={handleAddToCart}
                         className="mt-3 px-4 py-2 bg-gray-700 text-white rounded hover:bg-orange-600 transform hover:scale-105 transition duration-100"
                     >
                         Add To Cart
