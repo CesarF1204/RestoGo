@@ -147,7 +147,7 @@ const deleteItem = async (token, id) => {
 
 /**
 * DOCU: This function is used for validating token that sends a GET request to the /api/auth/validate_token endpoint. <br>
-* This is being called when user want to get the details of an specific item. <br>
+* This is being called when validating token for authenticated user. <br>
 * Last Updated Date: January 11, 2025 <br>
 * @function
 * @author Cesar
@@ -196,7 +196,7 @@ const signIn = async (form_data) => {
 
 /**
 * DOCU: This function is used for registering account that sends a POST request to the /api/users/register endpoint <br>
-* This is being called when user want create an account. <br>
+* This is being called when creating an account. <br>
 * Last Updated Date: January 11, 2025 <br>
 * @function
 * @param {object} form_data - { firstName, lastName, email, password } - values of the register form

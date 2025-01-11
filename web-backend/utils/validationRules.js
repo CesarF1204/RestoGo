@@ -1,5 +1,12 @@
 import { check } from "express-validator";
 
+/**
+* DOCU: This is set of rules for validating input fields for creating and updating an item <br>
+* This is being called when admin create or update an item. <br>
+* Last Updated Date: January 10, 2025 <br>
+* @function
+* @author Cesar
+*/
 const itemValidationRules = [
     /* Validate fields */
     check('name')
@@ -14,6 +21,13 @@ const itemValidationRules = [
         .isInt({ min: 0 }).withMessage('Quantity must be greater than or equal to 0'),
 ];
 
+/**
+* DOCU: This is set of rules for validating input fields for account sign-in <br>
+* This is being called when user wants to sign in. <br>
+* Last Updated Date: January 10, 2025 <br>
+* @function
+* @author Cesar
+*/
 const signInValidationRules = [
     /* Validate fields */
     check('email')
@@ -22,6 +36,13 @@ const signInValidationRules = [
         .isLength({ min: 6 }).withMessage('Password should be at least 6 characters long')
 ];
 
+/**
+* DOCU: This is set of rules for validating input fields for account registration <br>
+* This is being called when registering an account. <br>
+* Last Updated Date: January 10, 2025 <br>
+* @function
+* @author Cesar
+*/
 const registerValidationRules = [
     /* Validate fields */
     check('firstName')

@@ -23,7 +23,7 @@ const getUploadedImageUrl = async (image_file) => {
 
 /**
 * DOCU: This function is used for pagination and limitation <br>
-* This is being called to format date. <br>
+* This is being called when user clicks next page or change the data limit per page. <br>
 * Last Updated Date: January 09, 2025 <br>
 * @function
 * @param {number} page - page number

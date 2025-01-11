@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 
+/**
+* DOCU: This is used for connecting to DB <br>
+* Last Updated Date: January 10, 2025 <br>
+* @function
+* @author Cesar
+*/
 const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI);
